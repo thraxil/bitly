@@ -16,15 +16,12 @@ func NewConnection(accessToken string) *Connection {
 }
 
 func (c Connection) Shorten(uri string) (string, error) {
-	apiURL := c.shortenURL()
 	params := url.Values{}
-
 	params.Set("access_token", c.AccessToken)
 	params.Set("longUrl", uri)
 	params.Set("format", "txt")
 
-	requestURL := apiURL + "?" + params.Encode()
-	res, err := http.Get(requestURL)
+	res, err := http.Get(c.shortenURL() + "?" + params.Encode())
 	if err != nil {
 		return "", err
 	}
